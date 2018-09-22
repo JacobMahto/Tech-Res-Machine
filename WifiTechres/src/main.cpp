@@ -9,7 +9,8 @@ const char* password = "godisgood";
 String mid="";
 int debug=0;
 int postError=0;
-int statusLed=D5;
+//int statusLed=D5;
+int statusLed=2;//for GPIO2
 
 //Host setup
 const char* host="mkpsindia.000webhostapp.com";
@@ -46,6 +47,18 @@ void setup() {
 }
 
 void loop() {
+  //To check if the connection continues , and to reconnect incase disconnected
+  if(WiFi.status()==WL_DISCONNECTED){
+    digitalWrite(statusLed,LOW);
+    WiFi.begin(ssid,password);
+    while(WiFi.status()!=WL_CONNECTED){
+      delay(500);
+      if(debug==1){
+        Serial.print('.');
+      }
+    }
+    digitalWrite(statusLed,HIGH);
+  }
   mid="";
   if(getVal()==1){
     if(debug==1){
@@ -122,7 +135,8 @@ void contactHost(String mid){
   else{
     Serial.println("ok");
   }
-
+//resetting the value of postError variable to 0(Zero means no error i.e. Success)
+postError=0;
 }
 
 int getVal(){

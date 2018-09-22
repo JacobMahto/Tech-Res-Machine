@@ -152,6 +152,10 @@ if(wifiError==1){
   if(debug==1){
     Serial.println("Net Connection Error. Try Again.");
   }
+  //lcd info block
+  lcd.clear();
+  lcd.print("---No Internet---");
+  delay(1000);
 }
 else{
   //This block is true , when the response is received before timeout
@@ -160,11 +164,19 @@ else{
       Serial.print("Success");
     }
     beep(beepLed, freq);
+    //lcd info block
+    lcd.clear();
+    lcd.print("---Success---");
+    delay(500);
   }
   else{
     if(debug==1){
       Serial.print("Failed");
     }
+    //lcd info block
+    lcd.clear();
+    lcd.print("---Try Again---");
+    delay(500);
   }
 }
 
